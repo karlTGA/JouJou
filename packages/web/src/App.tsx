@@ -2,6 +2,8 @@ import { gql } from 'apollo-boost';
 import * as React from 'react';
 import { Query } from 'react-apollo';
 
+import './styles/main.scss';
+
 const LOCAL_HELLO = gql`
   query localHello($subject: String) {
     localHello(subject: $subject) @client
