@@ -3,6 +3,10 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { render } from 'react-dom';
 
+import 'antd/dist/antd.css';
+import 'react-vertical-timeline-component/style.min.css';
+import './styles/main.scss';
+
 import App from './App';
 
 const GRAPHQL_API_URL = 'http://localhost:8080/graphql';

@@ -1,3 +1,26 @@
-h1 {
-  color: green;
+body,
+#root {
+  height: 100%;
+  background: #f0f2f5;
+}
+
+.ant-layout-header {
+  height: 300px;
+}
+
+.entry-overview-content {
+  margin-top: 10px;
+}
+
+.vertical-timeline-element-icon {
+  display: grid;
+}
+
+#floating-action-button {
+  width: 60px;
+  height: 60px;
+  font-size: 25px;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
 }

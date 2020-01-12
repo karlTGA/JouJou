@@ -1,8 +1,11 @@
 import { gql } from 'apollo-boost';
 import * as React from 'react';
 import { Query } from 'react-apollo';
+import { Layout } from 'antd';
+import Timeline from './components/Timeline';
+import AddEntryButton from './components/AddEntryButton';
 
-import './styles/main.scss';
+const { Header, Content } = Layout;
 
 const LOCAL_HELLO = gql`
   query localHello($subject: String) {
@@ -48,14 +51,13 @@ const ServerHello = () => (
 );
 
 const App = () => (
-  <div>
-    <h1>
-      Welcome to your own <a href="http://localhost:8080/graphiql">GraphQL</a> web front end!
-    </h1>
-    <h2>You can start editing source code and see results immediately</h2>
-    <LocalHello />
-    <ServerHello />
-  </div>
+  <Layout>
+    <Header />
+    <Content className="entry-overview-content">
+      <Timeline />
+    </Content>
+    <AddEntryButton />
+  </Layout>
 );
 
 export default App;

@@ -7,13 +7,15 @@
     "build": "zen build"
   },
   "dependencies": {
+    "antd": "^3.26.4",
     "apollo-boost": "0.3.1",
     "apollo-client": "2.5.1",
     "graphql": "14.0.2",
     "raf": "^3.4.1",
     "react": "16.8.2",
     "react-apollo": "2.4.1",
-    "react-dom": "16.8.2"
+    "react-dom": "16.8.2",
+    "react-vertical-timeline-component": "^2.5.0"
   },
   "browserslist": {
     "development": [
@@ -29,6 +31,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-import": "^1.13.0",
     "cssnano": "^4.1.10",
     "node-sass": "^4.13.0",
     "postcss-import": "^12.0.1",
