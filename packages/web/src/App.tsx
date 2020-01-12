@@ -1,11 +1,12 @@
 import { gql } from 'apollo-boost';
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { Layout } from 'antd';
-import Timeline from './components/Timeline';
 import AddEntryButton from './components/AddEntryButton';
+import Login from './components/Login';
+import Overview from './components/Overview';
+import Editor from './components/Editor';
 
-const { Header, Content } = Layout;
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const LOCAL_HELLO = gql`
   query localHello($subject: String) {
@@ -51,13 +52,23 @@ const ServerHello = () => (
 );
 
 const App = () => (
-  <Layout>
-    <Header />
-    <Content className="entry-overview-content">
-      <Timeline />
-    </Content>
+  <Router>
     <AddEntryButton />
-  </Layout>
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/overview">
+        <Overview />
+      </Route>
+      <Route path="/editor">
+        <Editor />
+      </Route>
+      <Route path="/">
+        <Overview />
+      </Route>
+    </Switch>
+  </Router>
 );
 
 export default App;
