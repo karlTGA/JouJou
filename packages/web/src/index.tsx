@@ -6,6 +6,7 @@ import { render } from 'react-dom';
 import 'antd/dist/antd.css';
 import 'react-vertical-timeline-component/style.min.css';
 import './styles/main.scss';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import App from './App';
 

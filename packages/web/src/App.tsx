@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import AddEntryButton from './components/AddEntryButton';
 import Login from './components/Login';
 import Overview from './components/Overview';
-import Editor from './components/Editor';
+import EntryEditor from './components/EntryEditor';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
@@ -62,7 +62,7 @@ const App = () => (
         <Overview />
       </Route>
       <Route path="/editor">
-        <Editor />
+        <EntryEditor />
       </Route>
       <Route path="/">
         <Overview />
