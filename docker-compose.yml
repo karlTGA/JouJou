@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  server:
+    build:
+      dockerfile: ./packages/server/Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+
+  web:
+    build:
+      dockerfile: ./packages/web/Dockerfile
+      context: .
+    ports:
+      - 80:80
