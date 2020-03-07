@@ -1,3 +1,10 @@
 type Query {
-  hello(subject: String): String
+  entries: [Entry]
+}
+
+type Entry {
+  title: String
+  date: String
+  isPublic: Boolean
+  content: String
 }

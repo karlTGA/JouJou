@@ -1,6 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import resolvers from './resolvers';
-import * as typeDefs from './schema.graphql';
+import typeDefs from './schema.graphql';
 
 const executableSchema = makeExecutableSchema({
   typeDefs,
