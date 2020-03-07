@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col, Form, Input, Button, DatePicker, Switch } from 'antd';
-import { Editor } from 'react-draft-wysiwyg';
+import { MegadraftEditor, editorStateFromRaw } from 'megadraft';
 
 export default function EntryEditor() {
-  const [editorState, setEditorState] = React.useState(null);
+  const [editorState, setEditorState] = React.useState(editorStateFromRaw(null));
 
   const handleEditorStateUpdate = newEditorState => {
     setEditorState(newEditorState);
@@ -28,13 +28,7 @@ export default function EntryEditor() {
         </Form>
       </Row>
       <Row id="editor-row">
-        <Editor
-          editorState={editorState}
-          toolbarClassName="draft-toolbar"
-          wrapperClassName="draft-wrapper"
-          editorClassName="editor-text-area"
-          onEditorStateChange={setEditorState}
-        />
+        <MegadraftEditor editorState={editorState} onChange={handleEditorStateUpdate} placeholder="Add some text" />
       </Row>
       <Row id="save-button-row">
         <Button type="primary" size="large">
