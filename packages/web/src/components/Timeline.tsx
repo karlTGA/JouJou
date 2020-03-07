@@ -1,30 +1,44 @@
+import { useQuery } from '@apollo/react-hooks';
+import { Icon } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import { Icon } from 'antd';
+import { GET_ENTRIES } from '../Queries';
+import { Entries } from './EntryEditor';
+
+interface Data {
+  entries: Entries;
+}
 
 export default function Timeline() {
+  const { loading, error, data } = useQuery<Data>(GET_ENTRIES);
+
+  if (loading) {
+    return (
+      <div className="loading-info">
+        <LoadingOutlined />
+        Loading ...
+      </div>
+    );
+  }
+
   return (
     <VerticalTimeline>
-      <VerticalTimelineElement
-        className="vertical-timeline-element--work"
-        date="2011 - present"
-        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-        icon={<Icon type="plus" />}
-      >
-        <h3 className="vertical-timeline-element-title">Creative Director</h3>
-        <h4 className="vertical-timeline-element-subtitle">Miami, FL</h4>
-        <p>Creative Direction, User Experience, Visual Design, Project Management, Team Leading</p>
-      </VerticalTimelineElement>
-      <VerticalTimelineElement
-        className="vertical-timeline-element--work"
-        date="2010 - 2011"
-        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-        icon={<Icon type="plus" />}
-      >
-        <h3 className="vertical-timeline-element-title">Art Director</h3>
-        <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
-        <p>Creative Direction, User Experience, Visual Design, SEO, Online Marketing</p>
-      </VerticalTimelineElement>
+      {data.entries.map(entry => (
+        <>
+          <VerticalTimelineElement
+            className="vertical-timeline-element--work"
+            key={entry.id}
+            date={entry.date}
+            iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+            icon={<Icon type="plus" />}
+          >
+            <h3 className="vertical-timeline-element-title">{entry.title}</h3>
+            {entry.location != null && <h4 className="vertical-timeline-element-subtitle">{entry.location}</h4>}
+            <p>Creative Direction, User Experience, Visual Design, Project Management, Team Leading</p>
+          </VerticalTimelineElement>
+        </>
+      ))}
     </VerticalTimeline>
   );
 }

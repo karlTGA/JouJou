@@ -1,13 +1,38 @@
 import React from 'react';
-import { Row, Col, Form, Input, Button, DatePicker, Switch } from 'antd';
-import { MegadraftEditor, editorStateFromRaw, editorStateToJSON } from 'megadraft';
+import { Button, DatePicker, Form, Input, Row, Switch } from 'antd';
+import { editorStateFromRaw, editorStateToJSON, MegadraftEditor } from 'megadraft';
 import moment from 'moment';
 
-export default function EntryEditor({ title, date, isPublic, content }) {
+interface Props {
+  title?: string;
+  date?: moment.Moment;
+  isPublic?: boolean;
+  location?: string;
+  content?: string | null;
+}
+
+export interface Entry {
+  id?: string;
+  title: string;
+  date: moment.Moment;
+  isPublic: boolean;
+  location: string;
+  content: string | null;
+}
+export type Entries = Entry[];
+
+export default function EntryEditor({
+  title = '',
+  date = moment(),
+  isPublic = false,
+  content = null,
+  location = ''
+}: Props) {
   const [cacheContent, setCacheContent] = React.useState(editorStateFromRaw(content));
-  const [cacheTitle, setCachedTitle] = React.useState(title || '');
-  const [cacheDate, setCacheDate] = React.useState<moment>(moment(date) || moment());
-  const [cacheIsPublic, setCachePublic] = React.useState(isPublic || false);
+  const [cacheTitle, setCachedTitle] = React.useState(title);
+  const [cacheDate, setCacheDate] = React.useState<moment.Moment>(moment(date));
+  const [cacheIsPublic, setCachePublic] = React.useState(isPublic);
+  const [cacheLocation, setCacheLocation] = React.useState(location);
 
   const handleEditorStateUpdate = newEditorState => {
     setCacheContent(newEditorState);
@@ -35,11 +60,14 @@ export default function EntryEditor({ title, date, isPublic, content }) {
           <Form.Item label="Titel">
             <Input value={cacheTitle} onChange={({ target }) => setCachedTitle(target.value)} />
           </Form.Item>
+          <Form.Item label="Ort">
+            <Input value={cacheLocation} onChange={({ target }) => setCacheLocation(target.value)} />
+          </Form.Item>
           <Form.Item label="Datum">
             <DatePicker value={cacheDate} onChange={date => setCacheDate(date)} />
           </Form.Item>
-          <Form.Item label="Public">
-            <Switch value={cacheIsPublic} onChange={value => setCachePublic(value)} />
+          <Form.Item label="Öffentlich">
+            <Switch checked={cacheIsPublic} onChange={value => setCachePublic(value)} />
           </Form.Item>
         </Form>
       </Row>

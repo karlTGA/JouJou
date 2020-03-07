@@ -5,6 +5,7 @@ type Query {
 type Entry {
   title: String
   date: String
+  location: String
   isPublic: Boolean
   content: String
 }

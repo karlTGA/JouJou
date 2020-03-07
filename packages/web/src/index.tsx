@@ -12,15 +12,6 @@ import App from './App';
 const GRAPHQL_API_URL = 'http://localhost:8080/graphql';
 
 const client = new ApolloClient({
-  clientState: {
-    resolvers: {
-      Query: {
-        localHello(obj: any, { subject }: { subject: string }) {
-          return `Hello, ${subject}! from Web UI`;
-        }
-      }
-    }
-  },
   uri: GRAPHQL_API_URL
 });
 
