@@ -1,11 +1,16 @@
-type Query {
-  entries: [Entry]
-}
-
 type Entry {
+  id: String
   title: String
   date: String
   location: String
   isPublic: Boolean
   content: String
+}
+
+type Query {
+  getEntries: [Entry]
+}
+
+type Mutation {
+  updateEntry(title: String, date: String, location: String, isPublic: Boolean, content: String): Entry
 }

@@ -7,7 +7,7 @@ import { GET_ENTRIES } from '../Queries';
 import { Entries } from './EntryEditor';
 
 interface Data {
-  entries: Entries;
+  getEntries: Entries;
 }
 
 export default function Timeline() {
@@ -24,7 +24,7 @@ export default function Timeline() {
 
   return (
     <VerticalTimeline>
-      {data.entries.map(entry => (
+      {data.getEntries.map(entry => (
         <>
           <VerticalTimelineElement
             className="vertical-timeline-element--work"

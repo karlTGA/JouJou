@@ -1,11 +1,18 @@
 import { gql } from 'apollo-boost';
 
 export const GET_ENTRIES = gql`
-  query Entries {
-    entries {
+  query entries {
+    getEntries {
       title
       date
       content
     }
   }
 `;
+
+export const UPDATE_ENTRY = gql`
+  mutation updateEntry {
+      updateEntry {
+        title
+      }
+  }
