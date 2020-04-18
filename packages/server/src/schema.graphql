@@ -1,3 +1,11 @@
+input EntryInput {
+  title: String
+  date: String
+  location: String
+  isPublic: Boolean
+  content: String
+}
+
 type Entry {
   entry_id: ID!
   title: String
@@ -12,11 +20,5 @@ type Query {
 }
 
 type Mutation {
-  updateEntry(
-    title: String
-    date: String
-    location: String
-    isPublic: Boolean
-    content: String
-  ): Entry
+  updateEntry(entryId: Int, newEntry: EntryInput): Entry
 }

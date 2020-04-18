@@ -135,7 +135,7 @@ class DB {
     });
   };
 
-  updateEntry = (entry_id: number, entry: Entry): Promise<Entry> => {
+  updateEntry = (entryId: number, entry: Entry): Promise<Entry> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {
         console.error("Can't get entry from disconnected database!");
@@ -157,7 +157,7 @@ class DB {
           entry.location,
           entry.isPublic,
           entry.content,
-          entry_id,
+          entryId,
         ],
         (err) => {
           if (err) {

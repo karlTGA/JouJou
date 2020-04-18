@@ -1,7 +1,13 @@
-import React from 'react';
-import { Button, DatePicker, Form, Input, Row, Switch } from 'antd';
-import { editorStateFromRaw, editorStateToJSON, MegadraftEditor } from 'megadraft';
-import moment from 'moment';
+import React from "react";
+import { Button, DatePicker, Form, Input, Row, Switch } from "antd";
+import {
+  editorStateFromRaw,
+  editorStateToJSON,
+  MegadraftEditor,
+} from "megadraft";
+import moment from "moment";
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_ENTRY } from "../Queries";
 
 interface Props {
   title?: string;
@@ -22,19 +28,22 @@ export interface Entry {
 export type Entries = Entry[];
 
 export default function EntryEditor({
-  title = '',
+  title = "",
   date = moment(),
   isPublic = false,
   content = null,
-  location = ''
+  location = "",
 }: Props) {
-  const [cacheContent, setCacheContent] = React.useState(editorStateFromRaw(content));
+  const [updateEntry, { data }] = useMutation(UPDATE_ENTRY);
+  const [cacheContent, setCacheContent] = React.useState(
+    editorStateFromRaw(content)
+  );
   const [cacheTitle, setCachedTitle] = React.useState(title);
   const [cacheDate, setCacheDate] = React.useState<moment.Moment>(moment(date));
   const [cacheIsPublic, setCachePublic] = React.useState(isPublic);
   const [cacheLocation, setCacheLocation] = React.useState(location);
 
-  const handleEditorStateUpdate = newEditorState => {
+  const handleEditorStateUpdate = (newEditorState) => {
     setCacheContent(newEditorState);
   };
 
@@ -43,11 +52,10 @@ export default function EntryEditor({
       title: cacheTitle,
       date: cacheDate.toISOString(),
       isPublic: cacheIsPublic,
-      content: editorStateToJSON(cacheContent)
+      content: editorStateToJSON(cacheContent),
     };
 
-    // save_my_content(content);
-    console.log(saveObject);
+    updateEntry({ variables: { entryId: null, newEntry: saveObject } });
   };
 
   return (
@@ -58,16 +66,28 @@ export default function EntryEditor({
       <Row>
         <Form>
           <Form.Item label="Titel">
-            <Input value={cacheTitle} onChange={({ target }) => setCachedTitle(target.value)} />
+            <Input
+              value={cacheTitle}
+              onChange={({ target }) => setCachedTitle(target.value)}
+            />
           </Form.Item>
           <Form.Item label="Ort">
-            <Input value={cacheLocation} onChange={({ target }) => setCacheLocation(target.value)} />
+            <Input
+              value={cacheLocation}
+              onChange={({ target }) => setCacheLocation(target.value)}
+            />
           </Form.Item>
           <Form.Item label="Datum">
-            <DatePicker value={cacheDate} onChange={date => setCacheDate(date)} />
+            <DatePicker
+              value={cacheDate}
+              onChange={(date) => setCacheDate(date)}
+            />
           </Form.Item>
           <Form.Item label="Öffentlich">
-            <Switch checked={cacheIsPublic} onChange={value => setCachePublic(value)} />
+            <Switch
+              checked={cacheIsPublic}
+              onChange={(value) => setCachePublic(value)}
+            />
           </Form.Item>
         </Form>
       </Row>
@@ -80,7 +100,7 @@ export default function EntryEditor({
       </Row>
       <Row id="save-button-row">
         <Button type="primary" size="large" onClick={handleSaveClick}>
-          Save{' '}
+          Save{" "}
         </Button>
       </Row>
     </div>
