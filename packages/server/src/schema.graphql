@@ -1,5 +1,5 @@
 type Entry {
-  id: String
+  entry_id: ID!
   title: String
   date: String
   location: String
@@ -12,5 +12,11 @@ type Query {
 }
 
 type Mutation {
-  updateEntry(title: String, date: String, location: String, isPublic: Boolean, content: String): Entry
+  updateEntry(
+    title: String
+    date: String
+    location: String
+    isPublic: Boolean
+    content: String
+  ): Entry
 }
