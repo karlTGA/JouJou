@@ -16,6 +16,7 @@ type Entry {
 }
 
 type Query {
+  getEntry(entryId: Int): Entry
   getEntries: [Entry]
 }
 

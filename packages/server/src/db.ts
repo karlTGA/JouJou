@@ -107,6 +107,32 @@ class DB {
     });
   };
 
+  getEntry = (entryId: number): Promise<Entry> => {
+    return new Promise((resolve, reject) => {
+      if (this.database == null) {
+        console.error("Can't get entry from disconnected database!");
+        reject("No Connection!");
+      }
+
+      this.database.all(
+        `
+        SELECT * 
+        FROM entry 
+        WHERE entry_id = ?
+        `,
+        [entryId],
+        (err, rows) => {
+          if (err) {
+            console.error("Failed to request entry from db.");
+            reject(err);
+          }
+
+          resolve(rows[0]);
+        }
+      );
+    });
+  };
+
   insertEntry = (entry: Entry): Promise<Entry> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {

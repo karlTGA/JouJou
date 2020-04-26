@@ -4,6 +4,8 @@ import Entry from "./types/entry";
 export default {
   Query: {
     getEntries: async () => await db.getEntries(),
+    getEntry: async (parent: any, { entryId }: { entryId: number }) =>
+      await db.getEntry(entryId),
   },
   Mutation: {
     updateEntry: async (
