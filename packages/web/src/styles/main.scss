@@ -1,4 +1,4 @@
-@import 'megadraft/dist/css/megadraft.css';
+@import "megadraft/dist/css/megadraft.css";
 
 body,
 #root {
@@ -12,6 +12,10 @@ body,
 
 .entry-overview-content {
   margin-top: 10px;
+
+  .vertical-timeline-element-content-container {
+    cursor: pointer;
+  }
 }
 
 .vertical-timeline-element-icon {

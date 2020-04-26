@@ -6,6 +6,7 @@ import { gql } from "apollo-boost";
 export const GET_ENTRIES = gql`
   query entries {
     getEntries {
+      entryId: entry_id
       title
       date
       content
