@@ -24,6 +24,9 @@ const App = () => (
       <Route path="/editor/:entryId">
         <EntryEditor />
       </Route>
+      <Route path="/editor">
+        <EntryEditor />
+      </Route>
       <Route path="/">
         <Overview />
       </Route>

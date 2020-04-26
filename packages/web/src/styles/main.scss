@@ -32,15 +32,36 @@ body,
   z-index: 10;
 }
 
-.editor-container {
+.back-to-overview-button {
+  margin: 15px 0 0 40px;
+}
+
+.viewer-container {
+  .viewer-meta-field {
+    margin: 0 20px;
+  }
+
+  .meta-key {
+    font-weight: bold;
+  }
+
+  .viewer {
+    height: 80%;
+    padding: 15px 20px;
+  }
+}
+
+.editor-container,
+.viewer-container {
   background: white;
   height: 100%;
-  margin: 40px;
+  margin: 15px 40px 0 40px;
   padding: 10px;
   border-radius: 15px;
   box-shadow: 4px 4px 9px 3px lightgrey;
 
-  .editor-heading {
+  .editor-heading,
+  .viewer-heading {
     margin: 20px;
     border-bottom: solid 1px lightgrey;
   }
@@ -58,9 +79,15 @@ body,
     margin-bottom: 0;
   }
 
-  #editor-row {
+  .editor {
     height: 80%;
-    padding: 15px 65px;
+    padding: 15px 75px;
+  }
+
+  .editor-public-switch {
+    .ant-form-item-label {
+      min-width: 80px;
+    }
   }
 
   #save-button-row {
