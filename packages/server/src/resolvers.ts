@@ -10,15 +10,15 @@ export default {
       parent: any,
       { entryId, newEntry }: { entryId: number | null; newEntry: Entry }
     ) => {
-      console.log("Got request");
-      console.log(entryId);
-      console.log(newEntry);
-
       if (entryId == null) {
         return db.insertEntry(newEntry);
       }
 
       return db.updateEntry(entryId, newEntry);
+    },
+    removeEntry: async (parent: any, { entryId }: { entryId: number }) => {
+      if (entryId == null) return false;
+      await db.removeEntry(entryId);
     },
   },
 };

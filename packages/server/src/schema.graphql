@@ -21,4 +21,5 @@ type Query {
 
 type Mutation {
   updateEntry(entryId: Int, newEntry: EntryInput): Entry
+  removeEntry(entryId: Int): Boolean
 }

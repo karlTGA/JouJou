@@ -170,6 +170,31 @@ class DB {
       );
     });
   };
+
+  removeEntry = (entryId: number): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      if (this.database == null) {
+        console.error("Can't remove entry from disconnected database!");
+        reject("No Connection!");
+      }
+
+      this.database.run(
+        `DELETE 
+            FROM entry
+        WHERE
+            entry_id = ?`,
+        [entryId],
+        (err) => {
+          if (err) {
+            console.error("Failed to remove entry to db.");
+            reject(err);
+          }
+
+          resolve();
+        }
+      );
+    });
+  };
 }
 
 const db = new DB();
