@@ -7,14 +7,6 @@ import { GET_ENTRY } from "../Queries";
 import { useQuery } from "@apollo/react-hooks";
 import BackToTimeline from "./BackToOverview";
 
-interface Props {
-  title?: string;
-  date?: moment.Moment;
-  isPublic?: boolean;
-  location?: string;
-  content?: string | null;
-}
-
 export interface Entry {
   entryId?: string;
   title: string;

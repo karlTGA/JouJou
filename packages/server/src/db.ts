@@ -168,13 +168,16 @@ class DB {
         reject("No Connection!");
       }
 
+      console.log(entryId);
+      console.log(entry);
+
       this.database.run(
         `UPDATE entry
             SET title = ?,
-            SET date = ?,
-            SET location = ?,
-            SET is_public = ?, 
-            SET content = ? 
+                date = ?,
+                location = ?,
+                is_public = ?, 
+                content = ? 
         WHERE
             entry_id = ?`,
         [

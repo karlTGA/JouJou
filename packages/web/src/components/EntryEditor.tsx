@@ -11,18 +11,10 @@ import { UPDATE_ENTRY, GET_ENTRY } from "../Queries";
 import { useParams } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
 
-interface Props {
-  title?: string;
-  date?: moment.Moment;
-  isPublic?: boolean;
-  location?: string;
-  content?: string | null;
-}
-
 export interface Entry {
   entryId?: string;
   title: string;
-  date: moment.Moment;
+  date: string;
   isPublic: boolean;
   location: string;
   content: string | null;
@@ -36,7 +28,7 @@ interface DataQuery {
 function getEmptyEntry(): Entry {
   return {
     title: "",
-    date: moment(),
+    date: moment().toISOString(),
     isPublic: false,
     content: editorStateFromRaw(null),
     location: "",
@@ -57,7 +49,7 @@ export default function EntryEditor() {
     if (dataQuery != null && dataQuery.getEntry != null) {
       setEntry({
         ...dataQuery.getEntry,
-        date: moment(dataQuery.getEntry.date),
+        date: dataQuery.getEntry.date,
         content: editorStateFromRaw(JSON.parse(dataQuery.getEntry.content)),
       });
     }
@@ -80,12 +72,11 @@ export default function EntryEditor() {
   };
 
   const handleSaveClick = () => {
-    debugger;
     const saveObject = {
-      title: entry.title,
-      location: entry.location,
-      isPublic: entry.isPublic,
-      date: entry.date.toISOString(),
+      title: entry.title || "",
+      location: entry.location || "",
+      isPublic: entry.isPublic || false,
+      date: entry.date || "",
       content: editorStateToJSON(entry.content),
     };
 
@@ -121,8 +112,10 @@ export default function EntryEditor() {
             </Form.Item>
             <Form.Item label="Datum">
               <DatePicker
-                value={date}
-                onChange={(date) => handleEntryChange("date", date)}
+                value={moment(date)}
+                onChange={(date) =>
+                  handleEntryChange("date", date.toISOString())
+                }
               />
             </Form.Item>
             <Form.Item label="Öffentlich" className="editor-public-switch">
