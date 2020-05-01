@@ -112,5 +112,5 @@ dist
 # locale dbs
 *.db
 
-# cerbot files
-data/cerbot
+# certbot files
+data/certbot
