@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, DatePicker, Form, Input, Row, Switch } from "antd";
+import { Button, DatePicker, Form, Input, Row, Switch, Popconfirm } from "antd";
 import {
   editorStateFromRaw,
   editorStateToJSON,
@@ -150,14 +150,20 @@ export default function EntryEditor() {
         </Row>
         <Row id="save-button-row">
           {entry.entryId != null && (
-            <Button
-              type="danger"
-              size="large"
-              style={{ marginRight: "10px" }}
-              onClick={handleDeleteClick}
+            <Popconfirm
+              title="Bist du sicher, dass du den Eintrag löschen möchtest?"
+              onConfirm={handleDeleteClick}
+              okText="Ja"
+              cancelText="Nein"
             >
-              Delete
-            </Button>
+              <Button
+                type="danger"
+                size="large"
+                style={{ marginRight: "10px" }}
+              >
+                Delete
+              </Button>
+            </Popconfirm>
           )}
           <Button type="primary" size="large" onClick={handleSaveClick}>
             Save
