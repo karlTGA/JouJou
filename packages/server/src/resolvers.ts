@@ -21,6 +21,8 @@ export default {
     removeEntry: async (parent: any, { entryId }: { entryId: number }) => {
       if (entryId == null) return false;
       await db.removeEntry(entryId);
+
+      return true;
     },
   },
 };

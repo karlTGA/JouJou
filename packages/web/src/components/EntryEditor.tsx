@@ -7,7 +7,7 @@ import {
 } from "megadraft";
 import moment from "moment";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { UPDATE_ENTRY, GET_ENTRY } from "../Queries";
+import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
 
@@ -46,6 +46,11 @@ export default function EntryEditor() {
       },
     }
   );
+  const [removeEntry, { data }] = useMutation<void>(REMOVE_ENTRY, {
+    onCompleted: (data) => {
+      history.push(`/overview`);
+    },
+  });
   const { loading, error, data: dataQuery } = useQuery<DataQuery>(GET_ENTRY, {
     variables: { entryId: parseInt(entryId) },
   });
@@ -89,6 +94,10 @@ export default function EntryEditor() {
     updateEntry({
       variables: { entryId: parseInt(entryId), newEntry: saveObject },
     });
+  };
+
+  const handleDeleteClick = () => {
+    removeEntry({ variables: { entryId: parseInt(entryId) } });
   };
 
   return (
@@ -140,8 +149,18 @@ export default function EntryEditor() {
           />
         </Row>
         <Row id="save-button-row">
+          {entry.entryId != null && (
+            <Button
+              type="danger"
+              size="large"
+              style={{ marginRight: "10px" }}
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
+          )}
           <Button type="primary" size="large" onClick={handleSaveClick}>
-            Save{" "}
+            Save
           </Button>
         </Row>
       </div>

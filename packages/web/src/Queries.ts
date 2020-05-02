@@ -34,3 +34,9 @@ export const UPDATE_ENTRY = gql`
     }
   }
 `;
+
+export const REMOVE_ENTRY = gql`
+  mutation removeEntry($entryId: Int) {
+    removeEntry(entryId: $entryId)
+  }
+`;
