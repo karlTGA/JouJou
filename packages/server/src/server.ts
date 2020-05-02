@@ -10,6 +10,11 @@ import { execute, subscribe } from "graphql";
 import { createServer, Server } from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import * as url from "url";
+import process from "process";
+
+const PORT = process.env.PORT || "8080";
+const WS_HOST = process.env.WS_HOST || `ws://localhost:${PORT}`;
+const FRONTEND_HOST = process.env.FRONTEND_HOST || "http://localhost:3000";
 
 type ExpressGraphQLOptionsFunction = (
   req?: express.Request,
@@ -45,7 +50,7 @@ export default async (port: number): Promise<Server> => {
   const app = express();
   const server: Server = createServer(app);
 
-  app.use("*", cors({ origin: "http://localhost:3000" }));
+  app.use("*", cors({ origin: FRONTEND_HOST }));
 
   const apolloServer = new ApolloServer({
     playground: false,
@@ -63,7 +68,7 @@ export default async (port: number): Promise<Server> => {
           "# Welcome to your own GraphQL server!\n#\n" +
           "# Press Play button above to execute GraphQL query\n#\n" +
           "# You can start editing source code and see results immediately\n\n",
-        subscriptionsEndpoint: `ws://localhost:${port}/subscriptions`,
+        subscriptionsEndpoint: `${WS_HOST}/subscriptions`,
         variables: { subject: "World" },
       })
     );
