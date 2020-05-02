@@ -24,7 +24,7 @@ interface Data {
 export default function EntryView() {
   const { entryId } = useParams();
   const { loading, error, data } = useQuery<Data>(GET_ENTRY, {
-    variables: { entryId: parseInt(entryId) },
+    variables: { entryId: parseInt(entryId), fetchPolicy: "no-cache" },
   });
 
   if (loading) return <></>;

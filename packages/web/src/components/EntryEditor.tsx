@@ -8,7 +8,7 @@ import {
 import moment from "moment";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { UPDATE_ENTRY, GET_ENTRY } from "../Queries";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
 
 export interface Entry {
@@ -37,8 +37,14 @@ function getEmptyEntry(): Entry {
 
 export default function EntryEditor() {
   const { entryId } = useParams();
+  const history = useHistory();
   const [updateEntry, { data: dataMutation }] = useMutation<Entry>(
-    UPDATE_ENTRY
+    UPDATE_ENTRY,
+    {
+      onCompleted: (data) => {
+        history.push(`/entry/${entryId}`);
+      },
+    }
   );
   const { loading, error, data: dataQuery } = useQuery<DataQuery>(GET_ENTRY, {
     variables: { entryId: parseInt(entryId) },
