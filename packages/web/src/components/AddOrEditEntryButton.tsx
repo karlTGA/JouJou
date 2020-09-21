@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import { useHistory, useLocation } from "react-router-dom";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 export default function AddOrEditEntryButton() {
   const history = useHistory();
@@ -24,7 +25,7 @@ export default function AddOrEditEntryButton() {
     <Button
       type="primary"
       shape="circle"
-      icon={isInViewer ? "edit" : "plus"}
+      icon={isInViewer ? <EditOutlined /> : <PlusOutlined />}
       size="large"
       id="floating-action-button"
       onClick={handleButtonClick}

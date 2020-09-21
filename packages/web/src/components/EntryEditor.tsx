@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, DatePicker, Form, Input, Row, Switch, Popconfirm } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Switch,
+  Popconfirm,
+  Col,
+} from "antd";
 import {
   editorStateFromRaw,
   editorStateToJSON,
@@ -10,6 +19,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
+import Sidebar from "./Sidebar";
 
 export interface Entry {
   entryId?: string;
@@ -25,6 +35,10 @@ interface DataQuery {
   getEntry: Entry;
 }
 
+interface Params {
+  entryId: string;
+}
+
 function getEmptyEntry(): Entry {
   return {
     title: "",
@@ -36,7 +50,7 @@ function getEmptyEntry(): Entry {
 }
 
 export default function EntryEditor() {
-  const { entryId } = useParams();
+  const { entryId } = useParams<Params>();
   const history = useHistory();
   const [updateEntry, { data: dataMutation }] = useMutation<Entry>(
     UPDATE_ENTRY,
@@ -105,69 +119,99 @@ export default function EntryEditor() {
       <BackToTimeline />
       <div className="editor-container">
         <Row>
-          <h1 className="editor-heading">Eintrag bearbeiten:</h1>
+          <Col span={24}>
+            <h1 className="editor-heading">Eintrag bearbeiten:</h1>
+          </Col>
         </Row>
         <Row>
-          <Form>
-            <Form.Item label="Titel">
-              <Input
-                value={title}
-                onChange={({ target }) =>
-                  handleEntryChange("title", target.value)
-                }
-              />
-            </Form.Item>
-            <Form.Item label="Ort">
-              <Input
-                value={location}
-                onChange={({ target }) =>
-                  handleEntryChange("location", target.value)
-                }
-              />
-            </Form.Item>
-            <Form.Item label="Datum">
-              <DatePicker
-                value={moment(date)}
-                onChange={(date) =>
-                  handleEntryChange("date", date.toISOString())
-                }
-              />
-            </Form.Item>
-            <Form.Item label="Öffentlich" className="editor-public-switch">
-              <Switch
-                checked={isPublic}
-                onChange={(value) => handleEntryChange("isPublic", value)}
-              />
-            </Form.Item>
-          </Form>
+          <Col span={24}>
+            <Form>
+              <Col span={6}>
+                <Form.Item label="Titel">
+                  <Input
+                    value={title}
+                    onChange={({ target }) =>
+                      handleEntryChange("title", target.value)
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="Ort">
+                  <Input
+                    value={location}
+                    onChange={({ target }) =>
+                      handleEntryChange("location", target.value)
+                    }
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={7}>
+                <Form.Item label="Datum">
+                  <DatePicker
+                    value={moment(date)}
+                    onChange={(date) =>
+                      handleEntryChange("date", date.toISOString())
+                    }
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col
+                span={4}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Form.Item label="Öffentlich" className="editor-public-switch">
+                  <Switch
+                    checked={isPublic}
+                    onChange={(value) => handleEntryChange("isPublic", value)}
+                  />
+                </Form.Item>
+              </Col>
+            </Form>
+          </Col>
         </Row>
         <Row className="editor">
-          <MegadraftEditor
-            editorState={content}
-            onChange={handleEditorStateUpdate}
-            placeholder="Wie war euer Tag? ..."
-          />
+          <Col span={24}>
+            <MegadraftEditor
+              editorState={content}
+              onChange={handleEditorStateUpdate}
+              placeholder="Wie war euer Tag? ..."
+              sidebarRendererFn={() => <Sidebar />}
+            />
+          </Col>
         </Row>
         <Row id="save-button-row">
-          {entry.entryId != null && (
-            <Popconfirm
-              title="Bist du sicher, dass du den Eintrag löschen möchtest?"
-              onConfirm={handleDeleteClick}
-              okText="Ja"
-              cancelText="Nein"
-            >
-              <Button
-                type="danger"
-                size="large"
-                style={{ marginRight: "10px" }}
+          <Col
+            span={4}
+            offset={20}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            {entry.entryId != null && (
+              <Popconfirm
+                title="Bist du sicher, dass du den Eintrag löschen möchtest?"
+                onConfirm={handleDeleteClick}
+                okText="Ja"
+                cancelText="Nein"
               >
-                Delete
-              </Button>
-            </Popconfirm>
-          )}
-          <Button type="primary" size="large" onClick={handleSaveClick}>
-            Save
-          </Button>
+                <Button danger size="large" style={{ marginRight: "10px" }}>
+                  Delete
+                </Button>
+              </Popconfirm>
+            )}
+            <Button type="primary" size="large" onClick={handleSaveClick}>
+              Save
+            </Button>
+          </Col>
         </Row>
       </div>
     </div>

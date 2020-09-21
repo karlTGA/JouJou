@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/react-hooks";
-import { Icon } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, FormOutlined } from "@ant-design/icons";
 import React from "react";
 import {
   VerticalTimeline,
@@ -61,10 +60,7 @@ export default function Timeline() {
             key={entry.entryId}
             iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
             icon={
-              <Icon
-                onClick={() => handleEntryClick(entry.entryId)}
-                type="form"
-              />
+              <FormOutlined onClick={() => handleEntryClick(entry.entryId)} />
             }
           >
             <div

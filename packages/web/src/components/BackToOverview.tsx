@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { Button, Icon } from "antd";
+import { Button } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 
 export default function BackToTimeline() {
   const history = useHistory();
@@ -10,8 +11,11 @@ export default function BackToTimeline() {
   };
 
   return (
-    <Button className="back-to-overview-button" onClick={handleButtonClick}>
-      <Icon type="left" />
+    <Button
+      className="back-to-overview-button"
+      icon={<LeftOutlined />}
+      onClick={handleButtonClick}
+    >
       Zurück zur Timeline
     </Button>
   );
