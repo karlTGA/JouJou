@@ -6,6 +6,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import classNames from "classnames";
+import ImageUploadModal from "./ImageUploadModal";
 
 enum SidemenuState {
   OPEN = "open",
@@ -14,6 +15,8 @@ enum SidemenuState {
 
 export default function Sidebar() {
   const [sidemenuState, setSidemenuState] = useState(SidemenuState.CLOSED);
+  const [showImageUpload, setShowImageUpload] = useState(false);
+
   return (
     <div className="sidebar">
       <div className="sidebar__menu" style={{ top: "0px" }}>
@@ -63,6 +66,7 @@ export default function Sidebar() {
                     shape="circle"
                     type="primary"
                     style={{ backgroundColor: "#000", borderWidth: "0px" }}
+                    onClick={() => setShowImageUpload(true)}
                   />
                 </li>
               </ul>
@@ -70,6 +74,10 @@ export default function Sidebar() {
           </li>
         </ul>
       </div>
+      <ImageUploadModal
+        show={showImageUpload}
+        onClose={() => setShowImageUpload(false)}
+      />
     </div>
   );
 }

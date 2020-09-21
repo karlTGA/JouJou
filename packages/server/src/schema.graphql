@@ -15,12 +15,24 @@ type Entry {
   content: String
 }
 
+input FileInput {
+  id: String
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
 type Query {
   getEntry(entryId: Int): Entry
   getEntries: [Entry]
+  uploads: [File]
 }
 
 type Mutation {
   updateEntry(entryId: Int, newEntry: EntryInput): Entry
   removeEntry(entryId: Int): Boolean
+  imageUpload(file: FileInput): File!
 }
