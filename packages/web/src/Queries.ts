@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 // things i learned. It is important to use the same name
 // for inputs like the server. no plan why.

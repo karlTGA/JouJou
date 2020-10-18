@@ -1,8 +1,10 @@
+import { GraphQLUpload } from "graphql-upload";
 import db from "./db";
 import Entry from "./types/entry";
 import File from "./types/file";
 
 export default {
+  Upload: GraphQLUpload,
   Query: {
     getEntries: async () => await db.getEntries(),
     getEntry: async (parent: any, { entryId }: { entryId: number }) =>
@@ -28,6 +30,7 @@ export default {
     },
     imageUpload: (parent: any, args: any) => {
       return args.file.then((file: File) => {
+        console.log("Something happen, yeah!");
         //Contents of Upload scalar: https://github.com/jaydenseric/graphql-upload#class-graphqlupload
         //file.createReadStream() is a readable node stream that contains the contents of the uploaded file
         //node stream api: https://nodejs.org/api/stream.html

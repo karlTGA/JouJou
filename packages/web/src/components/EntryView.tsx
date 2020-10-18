@@ -4,7 +4,7 @@ import { editorStateFromRaw, MegadraftEditor } from "megadraft";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import { GET_ENTRY } from "../Queries";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import BackToTimeline from "./BackToOverview";
 
 export interface Entry {

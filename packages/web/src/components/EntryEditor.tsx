@@ -15,7 +15,7 @@ import {
   MegadraftEditor,
 } from "megadraft";
 import moment from "moment";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";

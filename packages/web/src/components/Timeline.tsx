@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { LoadingOutlined, FormOutlined } from "@ant-design/icons";
 import React from "react";
 import {

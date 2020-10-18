@@ -1,7 +1,7 @@
-import ApolloClient from "apollo-boost";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import * as React from "react";
-import { ApolloProvider } from "react-apollo";
 import { render } from "react-dom";
+import { createUploadLink } from "apollo-upload-client";
 
 import "antd/dist/antd.css";
 import "react-vertical-timeline-component/style.min.css";
@@ -15,7 +15,10 @@ const GRAPHQL_API_URL = !LOCAL
   : "http://localhost:8080/graphql";
 
 const client = new ApolloClient({
-  uri: GRAPHQL_API_URL,
+  cache: new InMemoryCache(),
+  link: createUploadLink({
+    uri: GRAPHQL_API_URL,
+  }),
 });
 
 render(

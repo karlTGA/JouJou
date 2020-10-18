@@ -8,14 +8,14 @@ import {
   UploadFile,
 } from "antd/lib/upload/interface";
 import gql from "graphql-tag";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { useApolloClient, useMutation } from "@apollo/client";
 
 const { Dragger } = Upload;
 
 const UPLOAD_IMAGE_MUTATION = gql`
-  mutation imageUpload($file: FileInput!) {
+  mutation($file: Upload!) {
     imageUpload(file: $file) {
-      id
+      success
     }
   }
 `;
@@ -46,7 +46,7 @@ export default function ImageUploadModal({
 
   const handleFile = async (options: RcCustomRequestOptions) => {
     const res = await uploadImageMutation({
-      variables: { file: { id: options.filename, file: options.file } },
+      variables: { file: options.file },
     });
     console.log(res);
     debugger;
