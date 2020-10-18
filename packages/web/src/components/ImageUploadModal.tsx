@@ -15,7 +15,9 @@ const { Dragger } = Upload;
 const UPLOAD_IMAGE_MUTATION = gql`
   mutation($file: Upload!) {
     imageUpload(file: $file) {
-      success
+      filename
+      mimetype
+      encoding
     }
   }
 `;
@@ -44,14 +46,19 @@ export default function ImageUploadModal({
     }
   };
 
-  const handleFile = async (options: RcCustomRequestOptions) => {
-    debugger;
-    const res = await uploadImageMutation({
-      variables: { file: options.file },
-    });
-    console.log(res);
-    debugger;
-    return "throug";
+  const handleFile = async ({
+    file,
+    onSuccess,
+    onError,
+  }: RcCustomRequestOptions) => {
+    try {
+      const res = await uploadImageMutation({
+        variables: { file },
+      });
+      onSuccess(res, file);
+    } catch (err) {
+      onError(err);
+    }
   };
 
   const handleFileRemove = async (file: UploadFile<any>): Promise<boolean> => {
