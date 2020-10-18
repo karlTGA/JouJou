@@ -1,19 +1,19 @@
-import { Server } from "http";
+import { ApolloServer } from "apollo-server";
 import process from "process";
 
-import startServer from "./server";
+import createServer from "./server";
 
 try {
   const PORT = process.env.PORT || "8080";
   const HOST = process.env.HOST || `http://localhost:${PORT}`;
 
-  let server: Server;
+  let server: ApolloServer;
 
   if (module.hot) {
     module.hot.accept();
-    module.hot.dispose((data) => {
+    module.hot.dispose(async (data) => {
       if (server) {
-        server.close();
+        await server.stop();
       }
       data.hotReloaded = true;
     });
@@ -29,12 +29,18 @@ try {
     process.env.LAST_EXIT_CODE === "0" &&
     (!module.hot.data || !module.hot.data.hotReloaded);
 
-  startServer(parseInt(PORT)).then((serverInstance) => {
-    if (!module.hot || firstStartInDevMode) {
-      console.log(`GraphQL Server is now running on ${HOST}}`);
-    }
-
+  createServer(parseInt(PORT)).then((serverInstance) => {
     server = serverInstance;
+    serverInstance
+      .listen({
+        port: PORT,
+        url: HOST,
+      })
+      .then((serverInstance) => {
+        if (!module.hot || firstStartInDevMode) {
+          console.log(`GraphQL Server is now running on ${HOST}.`);
+        }
+      });
   });
 } catch (e) {
   console.error(e);

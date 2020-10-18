@@ -45,6 +45,7 @@ export default function ImageUploadModal({
   };
 
   const handleFile = async (options: RcCustomRequestOptions) => {
+    debugger;
     const res = await uploadImageMutation({
       variables: { file: options.file },
     });
@@ -63,9 +64,9 @@ export default function ImageUploadModal({
         multiple={false}
         name="file"
         accept="image/gif, image/jpeg, image/png"
-        customRequest={handleFile}
         onChange={handleImageFile}
         onRemove={handleFileRemove}
+        customRequest={handleFile}
       >
         <p className="ant-upload-drag-icon">
           <PictureOutlined />

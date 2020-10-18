@@ -9,7 +9,9 @@ export default {
     getEntries: async () => await db.getEntries(),
     getEntry: async (parent: any, { entryId }: { entryId: number }) =>
       await db.getEntry(entryId),
-    uploads: (parent: any, args: any) => {},
+    uploads: (parent: any, args: any) => {
+      console.log("upload");
+    },
   },
   Mutation: {
     updateEntry: async (
