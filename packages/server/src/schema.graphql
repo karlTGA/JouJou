@@ -24,10 +24,14 @@ type File {
   key: String!
 }
 
+type ImageUrl {
+  url: String!
+}
+
 type Query {
   getEntry(id: Int): Entry
   getEntries: [Entry]
-  uploads: [File]
+  getImageUrl(key: String): ImageUrl
 }
 
 type Mutation {

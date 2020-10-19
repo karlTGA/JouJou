@@ -18,14 +18,22 @@ const uploadToS3 = async (file: File) => {
   return request.promise();
 };
 
+const getSignedUrl = async (key: string) => {
+  return s3Client.getSignedUrlPromise("getObject", {
+    Bucket: "joujou-images",
+    Key: key,
+    Expires: 60,
+  });
+};
+
 export default {
   Upload: GraphQLUpload,
   Query: {
     getEntries: async () => await db.getEntries(),
     getEntry: async (parent: any, { id }: { id: number }) =>
       await db.getEntry(id),
-    uploads: (parent: any, args: any) => {
-      console.log("upload");
+    getImageUrl: async (parent: any, { key }: { key: string }) => {
+      return { url: await getSignedUrl(key) };
     },
   },
   Mutation: {

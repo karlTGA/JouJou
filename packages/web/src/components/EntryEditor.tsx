@@ -21,6 +21,7 @@ import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
 import Sidebar, { ContentInfo } from "./Sidebar";
+import ImageBlock from "./ImageBlock";
 
 export interface Entry {
   id?: string;
@@ -222,6 +223,9 @@ export default function EntryEditor() {
               Save
             </Button>
           </Col>
+        </Row>
+        <Row>
+          <ImageBlock imageKey="0a2c4b5a-289c-4946-8614-48d3c0e8e2df" />
         </Row>
       </div>
     </div>

@@ -9,6 +9,7 @@ if (secretAccessKey == null || accessKeyId == null)
 
 const s3Client = new S3({
   apiVersion: "2006-03-01",
+  region: "eu-central-1",
   credentials: { secretAccessKey, accessKeyId },
 });
 

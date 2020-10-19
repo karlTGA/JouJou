@@ -27,6 +27,14 @@ export const GET_ENTRY = gql`
   }
 `;
 
+export const GET_IMAGE_URL = gql`
+  query imageUrl($key: String!) {
+    getImageUrl(key: $key) {
+      url
+    }
+  }
+`;
+
 export const UPDATE_ENTRY = gql`
   mutation updateEntry($entryId: Int, $newEntry: EntryInput) {
     updateEntry(entryId: $entryId, newEntry: $newEntry) {
