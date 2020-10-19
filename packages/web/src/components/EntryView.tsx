@@ -22,7 +22,7 @@ interface Data {
 }
 
 export default function EntryView() {
-  const { entryId } = useParams();
+  const { entryId } = useParams<{ entryId: string }>();
   const { loading, error, data } = useQuery<Data>(GET_ENTRY, {
     variables: { entryId: parseInt(entryId), fetchPolicy: "no-cache" },
   });

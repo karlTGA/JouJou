@@ -14,6 +14,7 @@ import {
   editorStateToJSON,
   MegadraftEditor,
 } from "megadraft";
+import { EditorState } from "draft-js";
 import moment from "moment";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
@@ -27,12 +28,14 @@ export interface Entry {
   date: string;
   isPublic: boolean;
   location: string;
+  content: EditorState | null;
+}
+export interface ServerSideEntry extends Omit<Entry, "content"> {
   content: string | null;
 }
-export type Entries = Entry[];
 
 interface DataQuery {
-  getEntry: Entry;
+  getEntry: ServerSideEntry;
 }
 
 interface Params {

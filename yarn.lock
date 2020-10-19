@@ -1390,6 +1390,14 @@
   dependencies:
     "@types/express" "*"
 
+"@types/draft-js@^0.10.44":
+  version "0.10.44"
+  resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.10.44.tgz#7cd59d1cc335df31a92e86d09429ea22ce2f6a4f"
+  integrity sha512-6p3FZED91yPf+KQinlzFz1HuqSQ5zRXqU3RUsaP2oQYZTtrm5HDf2kwYnF5IihsleHR3jlQAwdSZt0zlJw3VGQ==
+  dependencies:
+    "@types/react" "*"
+    immutable "~3.7.4"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -6410,10 +6418,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-megadraft@^0.7.0:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/megadraft/-/megadraft-0.7.2.tgz#2597e29cae4eff4e49dc1f6d8c57bece15a5020a"
-  integrity sha512-JgWZ4MQtiYk3tas73oSpNEHPjvUZRFfk8+XfGFsN6kPwx6ZXCXrOaQ4rkcQNMoehWSdrOCX1vMUMMUqkaiuQZA==
+megadraft@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/megadraft/-/megadraft-0.7.4.tgz#5e02ce0c4916fb94b646a5d0aa59e50c8b1d2cf6"
+  integrity sha512-c6u3goHcrSG0qQqCE+KEhd2xuV259mdlEkFIxYjiGSf4016gTyGe7ZU2Zc1U/TsAMe7OP93HPeqeTAha4CUhaQ==
   dependencies:
     backstage-modal "^0.3.2"
     classnames "^2.2.5"
