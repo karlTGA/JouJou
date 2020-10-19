@@ -6,12 +6,12 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import { GET_ENTRIES } from "../Queries";
-import { Entries, Entry } from "./EntryEditor";
+import { ServerSideEntries, ServerSideEntry } from "./EntryEditor";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 interface Data {
-  getEntries: Entries;
+  getEntries: ServerSideEntries;
 }
 
 function getContentString(content: string | null) {
@@ -46,26 +46,24 @@ export default function Timeline() {
 
   return (
     <VerticalTimeline>
-      {data.getEntries.map((entry: Entry) => {
+      {data.getEntries.map((entry: ServerSideEntry) => {
         let content: string = getContentString(entry.content);
 
         return (
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
             date={
-              <p onClick={() => handleEntryClick(entry.entryId)}>
+              <p onClick={() => handleEntryClick(entry.id)}>
                 {moment(entry.date).format("LL")}
               </p>
             }
-            key={entry.entryId}
+            key={entry.id}
             iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-            icon={
-              <FormOutlined onClick={() => handleEntryClick(entry.entryId)} />
-            }
+            icon={<FormOutlined onClick={() => handleEntryClick(entry.id)} />}
           >
             <div
               className="vertical-timeline-element-content-container"
-              onClick={() => handleEntryClick(entry.entryId)}
+              onClick={() => handleEntryClick(entry.id)}
             >
               <h3 className="vertical-timeline-element-title">{entry.title}</h3>
               {entry.location != null && (

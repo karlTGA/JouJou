@@ -22,8 +22,8 @@ export default {
   Upload: GraphQLUpload,
   Query: {
     getEntries: async () => await db.getEntries(),
-    getEntry: async (parent: any, { entryId }: { entryId: number }) =>
-      await db.getEntry(entryId),
+    getEntry: async (parent: any, { id }: { id: number }) =>
+      await db.getEntry(id),
     uploads: (parent: any, args: any) => {
       console.log("upload");
     },

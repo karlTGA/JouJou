@@ -6,7 +6,7 @@ import { gql } from "@apollo/client";
 export const GET_ENTRIES = gql`
   query entries {
     getEntries {
-      entryId: entry_id
+      id: entry_id
       title
       date
       content
@@ -15,9 +15,9 @@ export const GET_ENTRIES = gql`
 `;
 
 export const GET_ENTRY = gql`
-  query entry($entryId: Int!) {
-    getEntry(entryId: $entryId) {
-      entryId: entry_id
+  query entry($id: Int!) {
+    getEntry(id: $id) {
+      id: entry_id
       title
       date
       content
@@ -30,7 +30,12 @@ export const GET_ENTRY = gql`
 export const UPDATE_ENTRY = gql`
   mutation updateEntry($entryId: Int, $newEntry: EntryInput) {
     updateEntry(entryId: $entryId, newEntry: $newEntry) {
+      id: entry_id
       title
+      date
+      content
+      isPublic
+      location
     }
   }
 `;

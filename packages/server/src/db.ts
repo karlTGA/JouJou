@@ -107,7 +107,7 @@ class DB {
     });
   };
 
-  getEntry = (entryId: number): Promise<Entry> => {
+  getEntry = (id: number): Promise<Entry> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {
         console.error("Can't get entry from disconnected database!");
@@ -120,7 +120,7 @@ class DB {
         FROM entry 
         WHERE entry_id = ?
         `,
-        [entryId],
+        [id],
         (err, rows) => {
           if (err) {
             console.error("Failed to request entry from db.");
@@ -139,6 +139,8 @@ class DB {
         console.error("Can't get entry from disconnected database!");
         reject("No Connection!");
       }
+      // save function here to make accessable for resolver
+      const getEntry = this.getEntry;
 
       this.database.run(
         `INSERT INTO entry(title, date, location, is_public, content) VALUES(?,?,?,?,?)`,
@@ -149,27 +151,24 @@ class DB {
           entry.isPublic,
           entry.content,
         ],
-        (err) => {
+        function(err) {
           if (err) {
             console.error("Failed to add entry to db.");
             reject(err);
           }
 
-          resolve();
+          resolve(getEntry(this.lastID));
         }
       );
     });
   };
 
-  updateEntry = (entryId: number, entry: Entry): Promise<Entry> => {
+  updateEntry = (id: number, entry: Entry): Promise<Entry> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {
         console.error("Can't get entry from disconnected database!");
         reject("No Connection!");
       }
-
-      console.log(entryId);
-      console.log(entry);
 
       this.database.run(
         `UPDATE entry
@@ -186,7 +185,7 @@ class DB {
           entry.location,
           entry.isPublic,
           entry.content,
-          entryId,
+          id,
         ],
         (err) => {
           if (err) {
@@ -194,13 +193,13 @@ class DB {
             reject(err);
           }
 
-          resolve();
+          resolve(this.getEntry(id));
         }
       );
     });
   };
 
-  removeEntry = (entryId: number): Promise<boolean> => {
+  removeEntry = (id: number): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {
         console.error("Can't remove entry from disconnected database!");
@@ -212,7 +211,7 @@ class DB {
             FROM entry
         WHERE
             entry_id = ?`,
-        [entryId],
+        [id],
         (err) => {
           if (err) {
             console.error("Failed to remove entry to db.");

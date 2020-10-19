@@ -23,16 +23,18 @@ import BackToTimeline from "./BackToOverview";
 import Sidebar, { ContentInfo } from "./Sidebar";
 
 export interface Entry {
-  entryId?: string;
+  id?: string;
   title: string;
   date: string;
   isPublic: boolean;
   location: string;
   content: EditorState | null;
 }
+export type Entries = Array<Entry>;
 export interface ServerSideEntry extends Omit<Entry, "content"> {
   content: string | null;
 }
+export type ServerSideEntries = Array<Entry>;
 
 interface DataQuery {
   getEntry: ServerSideEntry;
@@ -55,21 +57,20 @@ function getEmptyEntry(): Entry {
 export default function EntryEditor() {
   const { entryId } = useParams<Params>();
   const history = useHistory();
-  const [updateEntry, { data: dataMutation }] = useMutation<Entry>(
-    UPDATE_ENTRY,
-    {
-      onCompleted: (data) => {
-        history.push(`/entry/${entryId}`);
-      },
-    }
-  );
+  const [updateEntry, { data: dataMutation }] = useMutation<{
+    updateEntry: ServerSideEntry;
+  }>(UPDATE_ENTRY, {
+    onCompleted: ({ updateEntry }) => {
+      history.push(`/entry/${entryId || updateEntry.id}`);
+    },
+  });
   const [removeEntry, { data }] = useMutation<void>(REMOVE_ENTRY, {
     onCompleted: (data) => {
       history.push(`/overview`);
     },
   });
   const { loading, error, data: dataQuery } = useQuery<DataQuery>(GET_ENTRY, {
-    variables: { entryId: parseInt(entryId) },
+    variables: { id: parseInt(entryId) },
   });
   const [entry, setEntry] = useState(getEmptyEntry());
 
