@@ -2,6 +2,21 @@ import { GraphQLUpload } from "graphql-upload";
 import db from "./db";
 import Entry from "./types/entry";
 import File from "./types/file";
+import s3Client from "./s3";
+import { v4 as uuid } from "uuid";
+
+const uploadToS3 = async (file: File) => {
+  const request = s3Client.upload({
+    Bucket: "joujou-images",
+    ContentType: file.mimetype,
+    ContentEncoding: file.encoding,
+    Key: uuid(),
+    ServerSideEncryption: "AES256",
+    Body: file.createReadStream(),
+  });
+
+  return request.promise();
+};
 
 export default {
   Upload: GraphQLUpload,
@@ -30,14 +45,19 @@ export default {
 
       return true;
     },
-    imageUpload: (parent: any, args: any) => {
-      return args.file.then((file: File) => {
-        console.log(file);
-        //Contents of Upload scalar: https://github.com/jaydenseric/graphql-upload#class-graphqlupload
-        //file.createReadStream() is a readable node stream that contains the contents of the uploaded file
-        //node stream api: https://nodejs.org/api/stream.html
-        return file;
-      });
+    imageUpload: async (parent: any, args: any) => {
+      try {
+        const file: File = await args.file;
+        const res = await uploadToS3(file);
+
+        return {
+          ...file,
+          key: res.Key,
+        };
+      } catch (err) {
+        console.error(err);
+        return null;
+      }
     },
   },
 };

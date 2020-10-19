@@ -21,6 +21,7 @@ type File {
   filename: String!
   mimetype: String!
   encoding: String!
+  key: String!
 }
 
 type Query {

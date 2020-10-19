@@ -21,14 +21,18 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.0.0",
+    "@types/graphql-upload": "^8.0.4",
     "@types/react-router-dom": "^5.1.4",
+    "@types/uuid": "^8.3.0",
     "@types/webpack-env": "^1.15.1",
     "apollo-server": "^2.18.2",
+    "aws-sdk": "^2.773.0",
     "body-parser": "^1.18.3",
     "graphql-tools": "4.0.4",
     "opn": "^5.3.0",
     "sqlite3": "^4.1.1",
-    "subscriptions-transport-ws": "^0.9.15"
+    "subscriptions-transport-ws": "^0.9.15",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@types/sqlite3": "^3.1.6"

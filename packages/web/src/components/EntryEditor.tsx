@@ -19,7 +19,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
-import Sidebar from "./Sidebar";
+import Sidebar, { ContentInfo } from "./Sidebar";
 
 export interface Entry {
   entryId?: string;
@@ -114,6 +114,10 @@ export default function EntryEditor() {
     removeEntry({ variables: { entryId: parseInt(entryId) } });
   };
 
+  const handleNewContentFromSidebar = (info: ContentInfo) => {
+    console.log(info.key);
+  };
+
   return (
     <div>
       <BackToTimeline />
@@ -182,7 +186,9 @@ export default function EntryEditor() {
               editorState={content}
               onChange={handleEditorStateUpdate}
               placeholder="Wie war euer Tag? ..."
-              sidebarRendererFn={() => <Sidebar />}
+              sidebarRendererFn={() => (
+                <Sidebar onNewContent={handleNewContentFromSidebar} />
+              )}
             />
           </Col>
         </Row>

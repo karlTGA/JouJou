@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Upload, message } from "antd";
 import { PictureOutlined } from "@ant-design/icons";
 import { UploadChangeParam } from "antd/lib/upload";
@@ -18,6 +18,7 @@ const UPLOAD_IMAGE_MUTATION = gql`
       filename
       mimetype
       encoding
+      key
     }
   }
 `;
@@ -25,22 +26,27 @@ const UPLOAD_IMAGE_MUTATION = gql`
 export default function ImageUploadModal({
   show,
   onClose,
+  onImageUpload,
 }: {
   show: boolean;
   onClose: () => void;
+  onImageUpload: (key: string) => void;
 }) {
   const [uploadImageMutation] = useMutation(UPLOAD_IMAGE_MUTATION);
-  const apolloClient = useApolloClient();
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
-  const handleOk = async function() {};
+  const handleOk = async function() {
+    onClose();
+  };
 
   const handleImageFile = async (info: UploadChangeParam<UploadFile<any>>) => {
     const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
+    setFileList(info.fileList);
+
     if (status === "done") {
       message.success(`${info.file.name} file uploaded successfully.`);
+      setFileList([]);
+      onClose();
     } else if (status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
@@ -52,12 +58,16 @@ export default function ImageUploadModal({
     onError,
   }: RcCustomRequestOptions) => {
     try {
-      const res = await uploadImageMutation({
+      const {
+        data: { imageUpload },
+      } = await uploadImageMutation({
         variables: { file },
       });
-      onSuccess(res, file);
+      onImageUpload(imageUpload.key);
+      onSuccess(imageUpload, file);
     } catch (err) {
       onError(err);
+      throw err;
     }
   };
 
@@ -71,6 +81,7 @@ export default function ImageUploadModal({
         multiple={false}
         name="file"
         accept="image/gif, image/jpeg, image/png"
+        fileList={fileList}
         onChange={handleImageFile}
         onRemove={handleFileRemove}
         customRequest={handleFile}

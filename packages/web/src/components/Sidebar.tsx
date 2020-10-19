@@ -13,7 +13,16 @@ enum SidemenuState {
   CLOSED = "closed",
 }
 
-export default function Sidebar() {
+export interface ContentInfo {
+  type: "image";
+  key: string;
+}
+
+interface Props {
+  onNewContent: (info: ContentInfo) => void;
+}
+
+export default function Sidebar({ onNewContent }: Props) {
   const [sidemenuState, setSidemenuState] = useState(SidemenuState.CLOSED);
   const [showImageUpload, setShowImageUpload] = useState(false);
 
@@ -77,6 +86,7 @@ export default function Sidebar() {
       <ImageUploadModal
         show={showImageUpload}
         onClose={() => setShowImageUpload(false)}
+        onImageUpload={(key) => onNewContent({ type: "image", key })}
       />
     </div>
   );
