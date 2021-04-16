@@ -27,10 +27,10 @@ export const GET_ENTRY = gql`
   }
 `;
 
-export const GET_IMAGE_URL = gql`
-  query imageUrl($key: String!) {
-    getImageUrl(key: $key) {
-      url
+export const GET_IMAGE_URLS = gql`
+  query imageUrls($keys: [String]!) {
+    getImageUrls(keys: $keys) {
+      urls
     }
   }
 `;

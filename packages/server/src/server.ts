@@ -14,12 +14,12 @@ export default async (port: number): Promise<ApolloServer> => {
 
   const playgroundConfig: PlaygroundConfig = module.hot
     ? {
-        endpoint: "/graphql",
-        subscriptionEndpoint: `${WS_HOST}/subscriptions`,
-        settings: {
-          "editor.theme": "light",
-        },
-      }
+      endpoint: "/graphql",
+      subscriptionEndpoint: `${WS_HOST}/subscriptions`,
+      settings: {
+        "editor.theme": "light",
+      },
+    }
     : false;
 
   const apolloServer = new ApolloServer({

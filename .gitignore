@@ -114,3 +114,6 @@ dist
 
 # certbot files
 data/certbot
+
+# image files
+packages/server/uploads

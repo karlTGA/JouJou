@@ -3,20 +3,7 @@ import db from "./db";
 import Entry from "./types/entry";
 import File from "./types/file";
 import s3Client from "./s3";
-import { v4 as uuid } from "uuid";
-
-const uploadToS3 = async (file: File) => {
-  const request = s3Client.upload({
-    Bucket: "joujou-images",
-    ContentType: file.mimetype,
-    ContentEncoding: file.encoding,
-    Key: uuid(),
-    ServerSideEncryption: "AES256",
-    Body: file.createReadStream(),
-  });
-
-  return request.promise();
-};
+import { importImage } from "./images";
 
 const getSignedUrl = async (key: string) => {
   return s3Client.getSignedUrlPromise("getObject", {
@@ -32,8 +19,8 @@ export default {
     getEntries: async () => await db.getEntries(),
     getEntry: async (parent: any, { id }: { id: number }) =>
       await db.getEntry(id),
-    getImageUrl: async (parent: any, { key }: { key: string }) => {
-      return { url: await getSignedUrl(key) };
+    getImageUrls: async (parent: any, { keys }: { keys: Array<string> }) => {
+      return { urls: Promise.all(keys.map(key => getSignedUrl(key))) };
     },
   },
   Mutation: {
@@ -56,12 +43,12 @@ export default {
     imageUpload: async (parent: any, args: any) => {
       try {
         const file: File = await args.file;
-        const res = await uploadToS3(file);
+        const entryId: string = await args.entryId
+        const res = await importImage(file);
+        const image = await db.insertImage(res, parseInt(entryId))
 
-        return {
-          ...file,
-          key: res.Key,
-        };
+        console.log(image)
+        return image;
       } catch (err) {
         console.error(err);
         return null;

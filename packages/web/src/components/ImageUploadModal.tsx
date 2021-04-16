@@ -8,17 +8,29 @@ import {
   UploadFile,
 } from "antd/lib/upload/interface";
 import gql from "graphql-tag";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { useParams } from "react-router";
+
+interface Params {
+  entryId: string;
+}
 
 const { Dragger } = Upload;
 
 const UPLOAD_IMAGE_MUTATION = gql`
-  mutation($file: Upload!) {
-    imageUpload(file: $file) {
-      filename
-      mimetype
-      encoding
-      key
+  mutation($file: Upload!, $entryId: Int!) {
+    imageUpload(file: $file, entryId: $entryId) {
+      entry_id
+      image_id
+      original
+      large
+      medium
+      small
+      title
+      date
+      location
+      updated_at
+      created_at
     }
   }
 `;
@@ -32,6 +44,7 @@ export default function ImageUploadModal({
   onClose: () => void;
   onImageUpload: (key: string) => void;
 }) {
+  const { entryId } = useParams<Params>();
   const [uploadImageMutation] = useMutation(UPLOAD_IMAGE_MUTATION);
   const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
@@ -61,8 +74,10 @@ export default function ImageUploadModal({
       const {
         data: { imageUpload },
       } = await uploadImageMutation({
-        variables: { file },
+        variables: { file, entryId: parseInt(entryId) },
       });
+
+      debugger;
       onImageUpload(imageUpload.key);
       onSuccess(imageUpload, file);
     } catch (err) {

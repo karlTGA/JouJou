@@ -1,3 +1,7 @@
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config({ path: path.resolve(process.cwd(), '../../.env') })
+
 import S3 from "aws-sdk/clients/s3";
 import process from "process";
 

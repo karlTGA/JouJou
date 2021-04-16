@@ -1,6 +1,8 @@
 import sqlite3 from "sqlite3";
 import Entry from "./types/entry";
 
+import { ImageDoc, Images } from './images'
+
 const DB_PATH = process.env.DB_PATH || "./dev.db";
 
 class DB {
@@ -14,7 +16,7 @@ class DB {
           reject(err);
         }
 
-        await this._createTable();
+        await this._createTables();
         await this._addTrigger();
         // possible to add here migrations
 
@@ -24,8 +26,8 @@ class DB {
     });
   };
 
-  _createTable = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
+  _createTables = async (): Promise<void> => {
+    await Promise.all([new Promise((resolve, reject) => {
       this.database.run(
         `CREATE TABLE IF NOT EXISTS entry (
             entry_id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -46,7 +48,34 @@ class DB {
           resolve();
         }
       );
-    });
+    }),
+    new Promise((resolve, reject) => {
+      this.database.run(
+        `CREATE TABLE IF NOT EXISTS image (
+            image_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            entry_id INTEGER, 
+            title VARCHAR(30),
+            date DATETIME, 
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            location VARCHAR(30), 
+            original TEXT,
+            small TEXT,
+            medium TEXT,
+            large TEXT
+        )`,
+        (err) => {
+          if (err) {
+            console.error("Failed to open db.");
+            reject(err);
+          }
+
+          resolve();
+        }
+      );
+    })
+
+    ])
   };
 
   _addTrigger = (): Promise<void> => {
@@ -55,6 +84,10 @@ class DB {
         `CREATE TRIGGER IF NOT EXISTS update_trigger AFTER UPDATE ON entry
             BEGIN
               update entry SET updated_at = datetime('now') WHERE entry_id = NEW.entry_id;
+            END;
+        CREATE TRIGGER IF NOT EXISTS update_trigger AFTER UPDATE ON image
+            BEGIN
+              update image SET updated_at = datetime('now') WHERE image_id = NEW.image_id;
             END;
         `,
         (err) => {
@@ -151,13 +184,72 @@ class DB {
           entry.isPublic,
           entry.content,
         ],
-        function(err) {
+        function (err) {
           if (err) {
             console.error("Failed to add entry to db.");
             reject(err);
           }
 
           resolve(getEntry(this.lastID));
+        }
+      );
+    });
+  };
+
+  getImage = (id: number): Promise<ImageDoc> => {
+    return new Promise((resolve, reject) => {
+      if (this.database == null) {
+        console.error("Can't get entry from disconnected database!");
+        reject("No Connection!");
+      }
+
+      this.database.all(
+        `
+        SELECT * 
+        FROM image 
+        WHERE image_id = ?
+        `,
+        [id],
+        (err, rows) => {
+          if (err) {
+            console.error("Failed to request image from db.");
+            reject(err);
+          }
+
+          resolve(rows[0]);
+        }
+      );
+    });
+  };
+
+  insertImage = (images: Images, entryId: number): Promise<ImageDoc> => {
+    return new Promise((resolve, reject) => {
+      if (this.database == null) {
+        console.error("Can't get entry from disconnected database!");
+        reject("No Connection!");
+      }
+      // save function here to make accessable for resolver
+      const getImage = this.getImage;
+
+      this.database.run(
+        `INSERT INTO image(title, date, location, entry_id, original, small, medium, large) VALUES(?,?,?,?,?,?,?,?)`,
+        [
+          images.fileName,
+          new Date().toISOString(),
+          '',
+          entryId,
+          images.original,
+          images.small,
+          images.medium,
+          images.large
+        ],
+        function (err) {
+          if (err) {
+            console.error("Failed to add image to db.");
+            reject(err);
+          }
+
+          resolve(getImage(this.lastID));
         }
       );
     });

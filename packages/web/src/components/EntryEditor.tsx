@@ -24,7 +24,7 @@ import Sidebar, { ContentInfo } from "./Sidebar";
 import ImageBlock from "./ImageBlock";
 
 export interface Entry {
-  id?: string;
+  entryId?: string;
   title: string;
   date: string;
   isPublic: boolean;
@@ -62,7 +62,7 @@ export default function EntryEditor() {
     updateEntry: ServerSideEntry;
   }>(UPDATE_ENTRY, {
     onCompleted: ({ updateEntry }) => {
-      history.push(`/entry/${entryId || updateEntry.id}`);
+      history.push(`/entry/${entryId || updateEntry.entryId}`);
     },
   });
   const [removeEntry, { data }] = useMutation<void>(REMOVE_ENTRY, {
@@ -122,6 +122,8 @@ export default function EntryEditor() {
   const handleNewContentFromSidebar = (info: ContentInfo) => {
     console.log(info.key);
   };
+
+  const handleUploadImageClick = () => {};
 
   return (
     <div>
@@ -197,6 +199,12 @@ export default function EntryEditor() {
             />
           </Col>
         </Row>
+        <Row>
+          <Col span={24}>
+            <ImageBlock imageKeys={["0a2c4b5a-289c-4946-8614-48d3c0e8e2df"]} />
+          </Col>
+        </Row>
+
         <Row id="save-button-row">
           <Col
             span={4}
@@ -219,13 +227,13 @@ export default function EntryEditor() {
                 </Button>
               </Popconfirm>
             )}
+            <Button size="large" onClick={handleUploadImageClick}>
+              Upload Images
+            </Button>
             <Button type="primary" size="large" onClick={handleSaveClick}>
               Save
             </Button>
           </Col>
-        </Row>
-        <Row>
-          <ImageBlock imageKey="0a2c4b5a-289c-4946-8614-48d3c0e8e2df" />
         </Row>
       </div>
     </div>

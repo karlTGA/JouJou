@@ -17,25 +17,32 @@ type Entry {
   content: String
 }
 
-type File {
-  filename: String!
-  mimetype: String!
-  encoding: String!
-  key: String!
+type Image {
+  image_id: Int!
+  entry_id: Int!
+  original: String!
+  large: String!
+  medium: String!
+  small: String!
+  title: String!
+  date: String!
+  location: String!
+  updated_at: String!
+  created_at: String!
 }
 
-type ImageUrl {
-  url: String!
+type ImageUrls {
+  urls: [String]!
 }
 
 type Query {
   getEntry(id: Int): Entry
   getEntries: [Entry]
-  getImageUrl(key: String): ImageUrl
+  getImageUrls(keys: [String], entryId: Int): ImageUrls
 }
 
 type Mutation {
   updateEntry(entryId: Int, newEntry: EntryInput): Entry
   removeEntry(entryId: Int): Boolean
-  imageUpload(file: Upload!): File!
+  imageUpload(file: Upload!, entryId: Int): Image!
 }
