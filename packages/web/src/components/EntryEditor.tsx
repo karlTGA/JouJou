@@ -20,8 +20,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_ENTRY, GET_ENTRY, REMOVE_ENTRY } from "../Queries";
 import { useParams, useHistory } from "react-router-dom";
 import BackToTimeline from "./BackToOverview";
-import Sidebar, { ContentInfo } from "./Sidebar";
-import ImageBlock from "./ImageBlock";
+import { ImageBlock } from "./ImageBlock";
 
 export interface Entry {
   entryId?: string;
@@ -119,10 +118,6 @@ export default function EntryEditor() {
     removeEntry({ variables: { entryId: parseInt(entryId) } });
   };
 
-  const handleNewContentFromSidebar = (info: ContentInfo) => {
-    console.log(info.key);
-  };
-
   const handleUploadImageClick = () => {};
 
   return (
@@ -193,15 +188,12 @@ export default function EntryEditor() {
               editorState={content}
               onChange={handleEditorStateUpdate}
               placeholder="Wie war euer Tag? ..."
-              sidebarRendererFn={() => (
-                <Sidebar onNewContent={handleNewContentFromSidebar} />
-              )}
             />
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <ImageBlock imageKeys={["0a2c4b5a-289c-4946-8614-48d3c0e8e2df"]} />
+            <ImageBlock />
           </Col>
         </Row>
 
@@ -227,9 +219,6 @@ export default function EntryEditor() {
                 </Button>
               </Popconfirm>
             )}
-            <Button size="large" onClick={handleUploadImageClick}>
-              Upload Images
-            </Button>
             <Button type="primary" size="large" onClick={handleSaveClick}>
               Save
             </Button>

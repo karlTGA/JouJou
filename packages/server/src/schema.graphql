@@ -32,13 +32,15 @@ type Image {
 }
 
 type ImageUrls {
-  urls: [String]!
+  smallUrl: String!
+  largeUrl: String!
 }
 
 type Query {
   getEntry(id: Int): Entry
   getEntries: [Entry]
-  getImageUrls(keys: [String], entryId: Int): ImageUrls
+  getImagesOfEntry(entryId: Int): [Image]
+  getImageUrls(imageId: Int): ImageUrls
 }
 
 type Mutation {

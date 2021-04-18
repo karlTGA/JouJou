@@ -19,9 +19,18 @@ export default {
     getEntries: async () => await db.getEntries(),
     getEntry: async (parent: any, { id }: { id: number }) =>
       await db.getEntry(id),
-    getImageUrls: async (parent: any, { keys }: { keys: Array<string> }) => {
-      return { urls: Promise.all(keys.map(key => getSignedUrl(key))) };
+    getImageUrls: async (parent: any, { imageId }: { imageId: number }) => {
+      const image = await db.getImage(imageId)
+      const [smallUrl, largeUrl] = await Promise.all([getSignedUrl(image.small), getSignedUrl(image.large)])
+
+      return {
+        smallUrl,
+        largeUrl,
+      };
     },
+    getImagesOfEntry: async (parent: any, { entryId }: { entryId: number }) => {
+      return db.getImagesOfEntry(entryId)
+    }
   },
   Mutation: {
     updateEntry: async (

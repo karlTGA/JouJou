@@ -27,10 +27,20 @@ export const GET_ENTRY = gql`
   }
 `;
 
+export const GET_IMAGES_OF_ENTRY = gql`
+  query imagesOfEntry($entryId: Int!) {
+    getImagesOfEntry(entryId: $entryId) {
+      imageId: image_id
+      title
+    }
+  }
+`;
+
 export const GET_IMAGE_URLS = gql`
-  query imageUrls($keys: [String]!) {
-    getImageUrls(keys: $keys) {
-      urls
+  query imageUrls($imageId: Int!) {
+    getImageUrls(imageId: $imageId) {
+      smallUrl
+      largeUrl
     }
   }
 `;

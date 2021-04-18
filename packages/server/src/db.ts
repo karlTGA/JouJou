@@ -199,7 +199,7 @@ class DB {
   getImage = (id: number): Promise<ImageDoc> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {
-        console.error("Can't get entry from disconnected database!");
+        console.error("Can't get image from disconnected database!");
         reject("No Connection!");
       }
 
@@ -222,6 +222,31 @@ class DB {
     });
   };
 
+  getImagesOfEntry = (entryId: number): Promise<Array<ImageDoc>> => {
+    return new Promise((resolve, reject) => {
+      if (this.database == null) {
+        console.error("Can't get images from disconnected database!");
+        reject("No Connection!");
+      }
+
+      this.database.all(
+        `
+        SELECT * 
+        FROM image 
+        WHERE entry_id = ?
+        `,
+        [entryId],
+        (err, rows) => {
+          if (err) {
+            console.error("Failed to request images for entry from db.");
+            reject(err);
+          }
+
+          resolve(rows);
+        }
+      );
+    });
+  };
   insertImage = (images: Images, entryId: number): Promise<ImageDoc> => {
     return new Promise((resolve, reject) => {
       if (this.database == null) {

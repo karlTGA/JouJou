@@ -1,46 +1,65 @@
+import { PlusCircleOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
-import { Card, Carousel, Image } from "antd";
-import React, { CSSProperties } from "react";
-import { GET_IMAGE_URLS } from "../Queries";
+import { Card } from "antd";
+import React, { useState } from "react";
+import { useParams } from "react-router";
+import { GET_IMAGES_OF_ENTRY } from "../Queries";
+import { Image } from "./Image";
+import { ImageUploadModal } from "./ImageUploadModal";
 
-interface Props {
-  imageKeys: Array<string>;
-}
-
-interface ImageUrl {
-  urls: Array<string>;
+interface ImageType {
+  imageId: number;
+  title: string;
 }
 
 interface Data {
-  getImageUrls: ImageUrl;
+  getImagesOfEntry: Array<ImageType>;
 }
 
-const cardStyle: CSSProperties = {
-  height: "500px",
-};
+interface Params {
+  entryId: string;
+}
 
-function getContentStyle(url: string): CSSProperties {
-  return {
-    background: "grey",
-    color: "#fff",
-    backgroundImage: `url(${url})`,
-    backgroundPosition: "0 -250px",
+export function ImageBlock() {
+  const { entryId } = useParams<Params>();
+  const { loading, error, data, refetch } = useQuery<Data>(
+    GET_IMAGES_OF_ENTRY,
+    {
+      variables: { entryId: parseInt(entryId) },
+    }
+  );
+  const [showImageUpload, setShowImageUpload] = useState(false);
+
+  const onModalClose = () => {
+    refetch();
+    setShowImageUpload(false);
   };
-}
-
-const ImageBlock = function({ imageKeys }: Props) {
-  const { loading, error, data } = useQuery<Data>(GET_IMAGE_URLS, {
-    variables: { keys: imageKeys },
-  });
 
   if (loading || error) return <div />;
 
   return (
-    <Card style={cardStyle}>
-      <Image src={data.getImageUrls.urls[0]} height="460px" />
-      <Image src={data.getImageUrls.urls[0]} height="460px" />
-    </Card>
+    <div>
+      <Card>
+        <div className="image-block">
+          {data.getImagesOfEntry.map((image: ImageType) => {
+            return (
+              <Image
+                key={image.imageId}
+                imageId={image.imageId}
+                title={image.title}
+              />
+            );
+          })}
+          <div
+            key="add-image"
+            className="add-image-entry"
+            onClick={() => setShowImageUpload(true)}
+          >
+            <PlusCircleOutlined />
+          </div>
+        </div>
+      </Card>
+      <ImageUploadModal show={showImageUpload} onClose={onModalClose} />
+    </div>
   );
-};
-
-export default ImageBlock;
+}

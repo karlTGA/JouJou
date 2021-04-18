@@ -7,7 +7,7 @@
     "build": "zen build"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.2.2",
+    "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.2.4",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -28,7 +28,7 @@
     "@types/express": "^4.11.1",
     "@types/moment": "^2.13.0",
     "Dante2": "^0.5.0-rc4",
-    "antd": "^4.6.5",
+    "antd": "^4.15.1",
     "apollo-upload-client": "^14.1.2",
     "classnames": "^2.2.6",
     "graphql": "14.0.2",

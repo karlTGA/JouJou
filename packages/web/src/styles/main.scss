@@ -106,4 +106,27 @@ body,
       width: 50px;
     }
   }
+
+  .image-block {
+    display: flex;
+    flex-wrap: wrap;
+
+    .add-image-entry {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 128px;
+      height: 128px;
+      background-color: lightgray;
+
+      .anticon-plus-circle {
+        font-size: x-large;
+        color: grey;
+      }
+    }
+
+    .ant-image {
+      margin-right: 20px;
+    }
+  }
 }

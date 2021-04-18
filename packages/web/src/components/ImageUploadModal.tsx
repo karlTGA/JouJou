@@ -20,29 +20,19 @@ const { Dragger } = Upload;
 const UPLOAD_IMAGE_MUTATION = gql`
   mutation($file: Upload!, $entryId: Int!) {
     imageUpload(file: $file, entryId: $entryId) {
-      entry_id
       image_id
-      original
-      large
-      medium
-      small
-      title
-      date
-      location
-      updated_at
-      created_at
     }
   }
 `;
 
-export default function ImageUploadModal({
+export function ImageUploadModal({
   show,
   onClose,
   onImageUpload,
 }: {
   show: boolean;
   onClose: () => void;
-  onImageUpload: (key: string) => void;
+  onImageUpload?: (key: string) => void;
 }) {
   const { entryId } = useParams<Params>();
   const [uploadImageMutation] = useMutation(UPLOAD_IMAGE_MUTATION);
@@ -77,8 +67,7 @@ export default function ImageUploadModal({
         variables: { file, entryId: parseInt(entryId) },
       });
 
-      debugger;
-      onImageUpload(imageUpload.key);
+      if (onImageUpload != null) onImageUpload(imageUpload.image_id);
       onSuccess(imageUpload, file);
     } catch (err) {
       onError(err);
