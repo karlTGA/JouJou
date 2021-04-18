@@ -110,6 +110,7 @@ body,
   .image-block {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
     .add-image-entry {
       display: flex;
