@@ -109,7 +109,7 @@ export async function uploadAndBuildScaledVersions(
         }),
     );
 
-    //await fs.rmdir('uploads/images', { recursive: true })
+    await fs.rmdir('uploads/images', { recursive: true })
 
     return imageURIs;
 }

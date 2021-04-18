@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: ./packages/server/Dockerfile
       context: .
-    image: karltga/joujou_server:${IMAGE_TAG}
+    # image: karltga/joujou_server:${IMAGE_TAG}
     ports:
       - 8080:8080
 
@@ -12,7 +12,7 @@ services:
     build:
       dockerfile: ./packages/web/Dockerfile
       context: .
-    image: karltga/joujou_web:${IMAGE_TAG}
+    # image: karltga/joujou_web:${IMAGE_TAG}
     ports:
       - 80:80
       - 443:443
