@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { GET_ENTRY } from "../Queries";
 import { useQuery } from "@apollo/client";
 import BackToTimeline from "./BackToOverview";
+import { ImageBlock } from "./ImageBlock";
 
 export interface Entry {
   entryId?: string;
@@ -54,6 +55,11 @@ export default function EntryView() {
             editorState={editorStateFromRaw(JSON.parse(content))}
             readOnly
           />
+        </Row>
+        <Row className="images">
+          <Col span={24}>
+            <ImageBlock />
+          </Col>
         </Row>
       </div>
     </div>

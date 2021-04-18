@@ -20,7 +20,7 @@ interface Params {
   entryId: string;
 }
 
-export function ImageBlock() {
+export function ImageBlock({ editable = false }: { editable?: boolean }) {
   const { entryId } = useParams<Params>();
   const { loading, error, data, refetch } = useQuery<Data>(
     GET_IMAGES_OF_ENTRY,
@@ -50,16 +50,20 @@ export function ImageBlock() {
               />
             );
           })}
-          <div
-            key="add-image"
-            className="add-image-entry"
-            onClick={() => setShowImageUpload(true)}
-          >
-            <PlusCircleOutlined />
-          </div>
+          {editable && (
+            <div
+              key="add-image"
+              className="add-image-entry"
+              onClick={() => setShowImageUpload(true)}
+            >
+              <PlusCircleOutlined />
+            </div>
+          )}
         </div>
       </Card>
-      <ImageUploadModal show={showImageUpload} onClose={onModalClose} />
+      {editable && (
+        <ImageUploadModal show={showImageUpload} onClose={onModalClose} />
+      )}
     </div>
   );
 }

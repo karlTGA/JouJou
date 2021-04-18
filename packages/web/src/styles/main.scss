@@ -81,7 +81,7 @@ body,
 
   .editor {
     height: 80%;
-    padding: 15px 75px;
+    padding: 15px;
   }
 
   .editor-public-switch {
@@ -107,27 +107,31 @@ body,
     }
   }
 
-  .image-block {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  .images {
+    padding: 15px;
 
-    .add-image-entry {
+    .image-block {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 128px;
-      height: 128px;
-      background-color: lightgray;
+      flex-wrap: wrap;
+      justify-content: flex-start;
 
-      .anticon-plus-circle {
-        font-size: x-large;
-        color: grey;
+      .add-image-entry {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 128px;
+        height: 128px;
+        background-color: lightgray;
+
+        .anticon-plus-circle {
+          font-size: x-large;
+          color: grey;
+        }
       }
-    }
 
-    .ant-image {
-      margin-right: 20px;
+      .ant-image {
+        margin-right: 20px;
+      }
     }
   }
 }

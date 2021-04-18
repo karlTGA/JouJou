@@ -188,12 +188,13 @@ export default function EntryEditor() {
               editorState={content}
               onChange={handleEditorStateUpdate}
               placeholder="Wie war euer Tag? ..."
+              sidebarRendererFn={() => <></>}
             />
           </Col>
         </Row>
-        <Row>
+        <Row className="images">
           <Col span={24}>
-            <ImageBlock />
+            <ImageBlock editable />
           </Col>
         </Row>
 
