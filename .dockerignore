@@ -4,3 +4,4 @@
 *.db
 *.log
 */*/uploads*
+node_modules

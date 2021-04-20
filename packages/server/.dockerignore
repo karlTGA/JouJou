@@ -1,0 +1,8 @@
+build
+.cache
+*.db
+*.log
+uploads
+*Dockerfile*
+*docker-compose*
+node_modules
